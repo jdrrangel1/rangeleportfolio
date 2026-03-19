@@ -1,0 +1,1286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>HR-201 | Building a Respectful Workplace</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --burg: #3d1235;
+    --burg-light: #5a1d50;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --cream: #faf7f2;
+    --sand: #f0e8dc;
+    --teal: #0d9488;
+    --teal-light: #14b8a6;
+    --dark: #1c1018;
+    --mid: #6b5f67;
+    --white: #ffffff;
+    --green: #166534;
+    --green-bg: #dcfce7;
+    --red: #991b1b;
+    --red-bg: #fee2e2;
+    --blue: #1e40af;
+    --blue-bg: #dbeafe;
+    --radius: 12px;
+    --shadow: 0 4px 24px rgba(61,18,53,0.12);
+    --shadow-lg: 0 12px 48px rgba(61,18,53,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--dark);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SCREEN SYSTEM ── */
+  .screen { display: none; min-height: 100vh; }
+  .screen.active { display: flex; flex-direction: column; animation: fadeIn .4s ease; }
+  @keyframes fadeIn { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+
+  /* ── TOP NAV ── */
+  .topnav {
+    background: var(--burg);
+    padding: 14px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .topnav-title { font-family: 'DM Serif Display', serif; color: var(--gold); font-size: 1rem; }
+  .topnav-meta { color: rgba(255,255,255,0.6); font-size: .8rem; font-weight: 300; }
+  .progress-wrap { flex: 1; margin: 0 32px; }
+  .progress-bar-bg { background: rgba(255,255,255,0.15); border-radius: 99px; height: 6px; }
+  .progress-bar-fill {
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    height: 6px; border-radius: 99px;
+    transition: width .6s cubic-bezier(.4,0,.2,1);
+  }
+  .progress-label { color: rgba(255,255,255,0.5); font-size: .72rem; margin-top: 4px; text-align: right; }
+
+  /* ── LANDING ── */
+  #screen-landing {
+    background: var(--burg);
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  #screen-landing::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(201,168,76,.15) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(13,148,136,.1) 0%, transparent 50%);
+  }
+  .landing-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,168,76,.3);
+    border-radius: 20px;
+    max-width: 680px;
+    width: 100%;
+    padding: 56px 48px;
+    text-align: center;
+    position: relative;
+    backdrop-filter: blur(8px);
+  }
+  .landing-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: var(--dark);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .1em;
+    padding: 5px 14px;
+    border-radius: 99px;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+  }
+  .landing-title {
+    font-family: 'DM Serif Display', serif;
+    color: var(--white);
+    font-size: 2.8rem;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+  .landing-title em { color: var(--gold); font-style: italic; }
+  .landing-sub {
+    color: rgba(255,255,255,0.65);
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 36px;
+  }
+  .meta-row {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+  .meta-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .meta-value { color: var(--gold); font-size: 1.4rem; font-weight: 600; }
+  .meta-key { color: rgba(255,255,255,0.45); font-size: .72rem; text-transform: uppercase; letter-spacing:.08em; }
+  .btn-start {
+    background: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 16px 48px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: 0 4px 20px rgba(201,168,76,.4);
+  }
+  .btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,.5); }
+  .landing-mandate {
+    margin-top: 24px;
+    color: rgba(255,255,255,.35);
+    font-size: .78rem;
+  }
+
+  /* ── CONTENT SCREENS ── */
+  .content-wrap {
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    flex: 1;
+  }
+  .section-eyebrow {
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    line-height: 1.2;
+    color: var(--burg);
+    margin-bottom: 20px;
+  }
+  .section-body {
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #3d2e38;
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+  .section-body strong { font-weight: 600; color: var(--burg); }
+
+  /* Cards */
+  .card-grid { display: grid; gap: 16px; margin: 24px 0; }
+  .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-top: 4px solid var(--burg);
+  }
+  .card.teal { border-top-color: var(--teal); }
+  .card.gold { border-top-color: var(--gold); }
+  .card.green { border-top-color: #16a34a; }
+  .card.red { border-top-color: #dc2626; }
+  .card.blue { border-top-color: #2563eb; }
+  .card.orange { border-top-color: #ea580c; }
+  .card.purple { border-top-color: #7c3aed; }
+  .card-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .card-title { font-weight: 600; font-size: .9rem; color: var(--burg); margin-bottom: 6px; }
+  .card-body { font-size: .85rem; line-height: 1.6; color: var(--mid); font-weight: 300; }
+  .card-example {
+    margin-top: 10px;
+    font-size: .8rem;
+    line-height: 1.5;
+    color: var(--mid);
+    font-style: italic;
+    border-top: 1px solid var(--sand);
+    padding-top: 10px;
+  }
+
+  /* Callout */
+  .callout {
+    background: var(--burg);
+    color: rgba(255,255,255,.85);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin: 24px 0;
+    font-size: .95rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .callout strong { color: var(--gold); font-weight: 600; }
+
+  /* Stat strip */
+  .stat-strip {
+    background: var(--burg);
+    border-radius: var(--radius);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    overflow: hidden;
+    margin: 28px 0;
+    box-shadow: var(--shadow-lg);
+  }
+  .stat-item {
+    padding: 28px 20px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,.1);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.6rem;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-desc { font-size: .8rem; color: rgba(255,255,255,.6); line-height: 1.5; font-weight: 300; }
+
+  /* Definition box */
+  .def-box {
+    background: var(--sand);
+    border-left: 5px solid var(--gold);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-size: .95rem;
+    line-height: 1.7;
+    color: var(--dark);
+  }
+  .def-box .label { font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+
+  /* Spectrum */
+  .spectrum { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 4px; margin: 20px 0; border-radius: var(--radius); overflow: hidden; }
+  .spectrum-item { padding: 16px 12px; text-align: center; }
+  .spectrum-item .s-label { font-weight: 700; font-size: .85rem; color: white; margin-bottom: 4px; }
+  .spectrum-item .s-sub { font-size: .72rem; color: rgba(255,255,255,.8); line-height: 1.4; }
+
+  /* Scenario interactive */
+  .scenario-box {
+    background: var(--burg);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin: 24px 0;
+    color: rgba(255,255,255,.9);
+    box-shadow: var(--shadow-lg);
+  }
+  .scenario-label { font-size: .72rem; font-weight: 700; letter-spacing:.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .scenario-text { font-size: .95rem; line-height: 1.75; font-weight: 300; margin-bottom: 20px; }
+  .scenario-q { font-weight: 600; color: var(--gold-light); font-size: .9rem; margin-bottom: 14px; }
+  .choice-btn {
+    display: block;
+    width: 100%;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.2);
+    color: rgba(255,255,255,.9);
+    border-radius: 8px;
+    padding: 14px 18px;
+    text-align: left;
+    font-size: .9rem;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all .2s;
+    line-height: 1.5;
+  }
+  .choice-btn:hover:not(:disabled) { background: rgba(255,255,255,.15); border-color: var(--gold); }
+  .choice-btn.correct { background: rgba(22,163,74,.25); border-color: #4ade80; color: #bbf7d0; }
+  .choice-btn.incorrect { background: rgba(220,38,38,.2); border-color: #f87171; color: #fecaca; }
+  .choice-btn:disabled { cursor: default; }
+  .feedback-box {
+    display: none;
+    background: rgba(255,255,255,.07);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-top: 12px;
+    font-size: .88rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,.8);
+    border-left: 3px solid var(--teal-light);
+  }
+  .feedback-box.show { display: block; animation: fadeIn .3s ease; }
+  .feedback-box .fb-head { font-weight: 600; color: var(--teal-light); margin-bottom: 4px; }
+
+  /* Info list */
+  .info-list { list-style: none; margin: 16px 0; }
+  .info-list li {
+    padding: 12px 16px 12px 44px;
+    position: relative;
+    font-size: .92rem;
+    line-height: 1.6;
+    color: #3d2e38;
+    background: var(--white);
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(61,18,53,.06);
+    font-weight: 300;
+  }
+  .info-list li::before {
+    content: attr(data-icon);
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    font-size: 1rem;
+  }
+
+  /* Process steps */
+  .process { display: flex; gap: 0; margin: 24px 0; }
+  .process-step { flex: 1; text-align: center; position: relative; }
+  .process-step:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -10px;
+    top: 18px;
+    color: var(--gold);
+    font-size: 1.2rem;
+    z-index: 1;
+  }
+  .process-num {
+    width: 44px; height: 44px;
+    background: var(--burg);
+    color: var(--white);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: .9rem;
+    margin: 0 auto 10px;
+    box-shadow: var(--shadow);
+  }
+  .process-title { font-weight: 600; font-size: .82rem; color: var(--burg); margin-bottom: 4px; }
+  .process-desc { font-size: .75rem; color: var(--mid); line-height: 1.4; font-weight: 300; }
+
+  /* Warning box */
+  .warning-box {
+    background: #fffbeb;
+    border: 1px solid var(--gold);
+    border-radius: var(--radius);
+    padding: 18px 22px;
+    margin: 20px 0;
+    font-size: .9rem;
+    line-height: 1.65;
+    color: #78350f;
+  }
+  .warning-box strong { color: #92400e; }
+
+  /* ── QUIZ ── */
+  #screen-quiz .content-wrap { max-width: 720px; }
+  .quiz-progress {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+  .qp-dot {
+    flex: 1; height: 4px; border-radius: 99px;
+    background: var(--sand);
+    transition: background .3s;
+  }
+  .qp-dot.done { background: var(--teal); }
+  .qp-dot.current { background: var(--gold); }
+
+  .quiz-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 36px;
+    box-shadow: var(--shadow-lg);
+    border-top: 4px solid var(--burg);
+  }
+  .quiz-num { font-size: .78rem; font-weight: 600; color: var(--gold); letter-spacing:.1em; text-transform: uppercase; margin-bottom: 12px; }
+  .quiz-q {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    color: var(--burg);
+    line-height: 1.4;
+    margin-bottom: 28px;
+  }
+  .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+  .quiz-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--cream);
+    border: 2px solid transparent;
+    border-radius: 10px;
+    padding: 16px 18px;
+    cursor: pointer;
+    transition: all .2s;
+    font-size: .92rem;
+    line-height: 1.5;
+    color: var(--dark);
+    font-family: 'DM Sans', sans-serif;
+  }
+  .quiz-opt:hover:not(.disabled) { border-color: var(--burg); background: var(--sand); }
+  .quiz-opt.selected { border-color: var(--burg); background: var(--sand); }
+  .quiz-opt.correct { border-color: #16a34a; background: #f0fdf4; color: #14532d; }
+  .quiz-opt.incorrect { border-color: #dc2626; background: #fef2f2; color: #7f1d1d; }
+  .quiz-opt.disabled { cursor: default; }
+  .quiz-opt.reveal-correct { border-color: #16a34a; background: #f0fdf4; }
+  .opt-letter {
+    min-width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--burg);
+    color: white;
+    font-size: .78rem;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .quiz-opt.correct .opt-letter { background: #16a34a; }
+  .quiz-opt.incorrect .opt-letter { background: #dc2626; }
+  .quiz-opt.reveal-correct .opt-letter { background: #16a34a; }
+
+  .quiz-feedback {
+    display: none;
+    margin-top: 20px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    font-size: .88rem;
+    line-height: 1.65;
+  }
+  .quiz-feedback.show { display: block; animation: fadeIn .3s; }
+  .quiz-feedback.correct { background: #f0fdf4; color: #14532d; border-left: 4px solid #16a34a; }
+  .quiz-feedback.incorrect { background: #fef2f2; color: #7f1d1d; border-left: 4px solid #dc2626; }
+  .quiz-feedback .fb-title { font-weight: 700; margin-bottom: 4px; }
+
+  .btn-next {
+    display: none;
+    margin-top: 24px;
+    background: var(--burg);
+    color: white;
+    border: none;
+    padding: 14px 36px;
+    border-radius: 99px;
+    font-size: .95rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: var(--shadow);
+  }
+  .btn-next:hover { background: var(--burg-light); transform: translateY(-1px); }
+  .btn-next.show { display: inline-block; animation: fadeIn .3s; }
+
+  /* ── NAV BUTTONS ── */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    border-top: 1px solid var(--sand);
+    background: var(--white);
+    position: sticky;
+    bottom: 0;
+    box-shadow: 0 -4px 20px rgba(61,18,53,.06);
+  }
+  .btn-nav {
+    padding: 12px 28px;
+    border-radius: 99px;
+    font-size: .9rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all .2s;
+    border: 2px solid var(--burg);
+  }
+  .btn-nav.primary { background: var(--burg); color: white; }
+  .btn-nav.primary:hover { background: var(--burg-light); }
+  .btn-nav.secondary { background: transparent; color: var(--burg); }
+  .btn-nav.secondary:hover { background: var(--sand); }
+  .btn-nav:disabled { opacity: .35; cursor: default; }
+  .section-counter { font-size: .8rem; color: var(--mid); font-weight: 400; }
+
+  /* ── COMPLETION ── */
+  #screen-complete {
+    background: var(--burg);
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  #screen-complete::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(201,168,76,.2) 0%, transparent 55%);
+  }
+  .complete-card {
+    max-width: 620px;
+    width: 100%;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(201,168,76,.3);
+    border-radius: 20px;
+    padding: 52px 44px;
+    text-align: center;
+    position: relative;
+    backdrop-filter: blur(10px);
+  }
+  .score-ring {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    margin: 0 auto 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .score-ring-bg {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 10px solid rgba(255,255,255,.1);
+  }
+  .score-ring-fill {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 10px solid var(--gold);
+    clip-path: inset(0 0 0 0);
+    transition: all 1s ease;
+  }
+  .score-pct {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    color: var(--white);
+    line-height: 1;
+  }
+  .score-lbl { font-size: .75rem; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing:.1em; }
+  .complete-title {
+    font-family: 'DM Serif Display', serif;
+    color: var(--white);
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+  .complete-sub { color: rgba(255,255,255,.6); font-weight: 300; line-height: 1.6; margin-bottom: 32px; }
+  .score-breakdown {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .sb-item {
+    background: rgba(255,255,255,.07);
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+  }
+  .sb-val { font-size: 1.6rem; font-weight: 700; color: var(--gold); font-family: 'DM Serif Display', serif; }
+  .sb-key { font-size: .75rem; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing:.08em; margin-top: 2px; }
+  .cert-strip {
+    background: var(--gold);
+    border-radius: 10px;
+    padding: 16px;
+    margin-bottom: 28px;
+    color: var(--dark);
+  }
+  .cert-strip .cert-title { font-weight: 700; font-size: .85rem; letter-spacing:.06em; text-transform: uppercase; }
+  .cert-strip .cert-name { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin: 4px 0; }
+  .cert-strip .cert-sub { font-size: .78rem; color: rgba(0,0,0,.6); }
+  .btn-restart {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,.3);
+    color: rgba(255,255,255,.7);
+    padding: 12px 28px;
+    border-radius: 99px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: .88rem;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .btn-restart:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .card-grid.cols-2, .card-grid.cols-4 { grid-template-columns: 1fr; }
+    .stat-strip { grid-template-columns: 1fr; }
+    .process { flex-direction: column; }
+    .process-step:not(:last-child)::after { content: '↓'; right: auto; left: 50%; top: auto; bottom: -14px; }
+    .landing-card { padding: 36px 24px; }
+    .landing-title { font-size: 2rem; }
+    .score-breakdown { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 0: LANDING
+═══════════════════════════════════════════ -->
+<div id="screen-landing" class="screen active">
+  <div class="landing-card">
+    <div class="landing-tag">Module HR-201 · Required Annual Training</div>
+    <h1 class="landing-title">Building a<br><em>Respectful Workplace</em></h1>
+    <p class="landing-sub">Understanding, preventing, and responding to workplace harassment.<br>Illinois EACH Act compliant · Lakeview Community Services</p>
+    <div class="meta-row">
+      <div class="meta-item"><span class="meta-value">6</span><span class="meta-key">Sections</span></div>
+      <div class="meta-item"><span class="meta-value">~60</span><span class="meta-key">Minutes</span></div>
+      <div class="meta-item"><span class="meta-value">8 Qs</span><span class="meta-key">Knowledge Check</span></div>
+      <div class="meta-item"><span class="meta-value">80%</span><span class="meta-key">Pass Score</span></div>
+    </div>
+    <button class="btn-start" onclick="startModule()">Begin Module →</button>
+    <p class="landing-mandate">⚖ Required by Illinois Workplace Transparency Act (EACH Act, 2020)</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     TOP NAV (shared across content screens)
+═══════════════════════════════════════════ -->
+<div id="topnav" class="topnav" style="display:none;">
+  <span class="topnav-title">HR-201 · Respectful Workplace</span>
+  <div class="progress-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="progressLabel">Section 0 of 6</div>
+  </div>
+  <span class="topnav-meta" id="topnavMeta">Lakeview Community Services</span>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 1: Why This Matters
+═══════════════════════════════════════════ -->
+<div id="screen-1" class="screen">
+  <div class="content-wrap">
+    <div class="section-eyebrow">Section 1 of 6 · Context</div>
+    <h2 class="section-title">The Real Workplace Problem</h2>
+    <p class="section-body">This training exists because harassment is not rare. It happens in every industry, at every level — often without a single formal complaint ever being filed. Understanding the scale of the problem is the first step toward being part of the solution.</p>
+
+    <div class="stat-strip">
+      <div class="stat-item">
+        <div class="stat-num">1 in 3</div>
+        <div class="stat-desc">employees experience workplace harassment at some point in their career</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">72%</div>
+        <div class="stat-desc">of incidents go unreported due to fear of retaliation or disbelief</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">$2.6B</div>
+        <div class="stat-desc">in annual productivity loss tied directly to harassment and related turnover</div>
+      </div>
+    </div>
+
+    <p class="section-body">Illinois law — specifically the <strong>Workplace Transparency Act (EACH Act, 2020)</strong> — requires all employers to provide annual harassment prevention training to every employee. But legal compliance is the floor, not the ceiling. Our goal is a workplace where people genuinely feel safe, valued, and respected.</p>
+
+    <div class="callout">
+      <strong>Our commitment:</strong> Lakeview Community Services has a zero-tolerance policy for harassment of any kind. Every employee — regardless of role or tenure — is responsible for maintaining a respectful workplace. This training gives you the knowledge and tools to uphold that commitment.
+    </div>
+
+    <ul class="info-list">
+      <li data-icon="📋">After completing this module, you will receive a <strong>Certificate of Completion</strong> to submit to HR for your personnel file.</li>
+      <li data-icon="🔒">Your quiz responses are private and used only for your own learning reflection — not shared with management.</li>
+      <li data-icon="📞">If today's content brings up something personal, HR and our EAP (Employee Assistance Program) are available confidentially: <strong>Ext. 204</strong> or <strong>1-800-555-0147</strong>.</li>
+    </ul>
+  </div>
+  <div class="nav-row">
+    <button class="btn-nav secondary" onclick="goTo(0)" >← Back</button>
+    <span class="section-counter">Section 1 of 6</span>
+    <button class="btn-nav primary" onclick="goTo(2)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 2: What Is Harassment?
+═══════════════════════════════════════════ -->
+<div id="screen-2" class="screen">
+  <div class="content-wrap">
+    <div class="section-eyebrow">Section 2 of 6 · Definitions</div>
+    <h2 class="section-title">What Constitutes Workplace Harassment?</h2>
+
+    <div class="def-box">
+      <div class="label">Legal Definition</div>
+      Unwelcome conduct based on a <strong>protected characteristic</strong> (race, sex, religion, national origin, age, disability, sexual orientation, etc.) that is <strong>severe or pervasive enough</strong> to create a hostile, intimidating, or offensive work environment — or that results in an adverse employment action.
+    </div>
+
+    <p class="section-body">There are two legally recognized categories of workplace harassment. Both are illegal under federal and Illinois law regardless of the genders, identities, or roles involved.</p>
+
+    <div class="card-grid cols-2">
+      <div class="card red">
+        <div class="card-title">⚠ Quid Pro Quo ("This for That")</div>
+        <div class="card-body">When employment decisions — hiring, promotion, scheduling, termination — are conditioned on an employee's acceptance or rejection of unwelcome conduct.</div>
+        <div class="card-example"><em>"If you want that promotion, you need to be friendlier with me."</em></div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">⚠ Hostile Work Environment</div>
+        <div class="card-body">When unwelcome conduct is so frequent or severe that it creates an intimidating, hostile, or abusive atmosphere — even without an explicit threat or economic harm.</div>
+        <div class="card-example"><em>Repeated ethnic slurs, sexual jokes, or targeted exclusion that makes someone dread coming to work.</em></div>
+      </div>
+    </div>
+
+    <p class="section-body">Key principles that apply to both types:</p>
+    <ul class="info-list">
+      <li data-icon="✓">Harassment does <strong>not</strong> require physical contact, a formal complaint, or economic harm to be illegal.</li>
+      <li data-icon="✓">A single incident can qualify as harassment if it is severe enough (e.g., a physical assault or explicit threat).</li>
+      <li data-icon="✓">Online and remote conduct — emails, Slack, video calls, texts — is fully covered under the law.</li>
+      <li data-icon="✓">The legal standard is whether a <strong>reasonable person</strong> in the same situation would find the conduct hostile or abusive — not whether the target chose to report it.</li>
+      <li data-icon="✓"><strong>Intent does not erase impact.</strong> "I was just joking" is not a legal defense.</li>
+    </ul>
+  </div>
+  <div class="nav-row">
+    <button class="btn-nav secondary" onclick="goTo(1)">← Back</button>
+    <span class="section-counter">Section 2 of 6</span>
+    <button class="btn-nav primary" onclick="goTo(3)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 3: The Gray Zone (Interactive)
+═══════════════════════════════════════════ -->
+<div id="screen-3" class="screen">
+  <div class="content-wrap">
+    <div class="section-eyebrow">Section 3 of 6 · Recognizing Behavior</div>
+    <h2 class="section-title">The Gray Zone</h2>
+    <p class="section-body">Not all problematic behavior is obvious. Most harassment starts in the gray zone — comments, jokes, or patterns that feel "off" but hard to name. Understanding the spectrum helps you recognize where behavior falls before it escalates.</p>
+
+    <div class="spectrum">
+      <div class="spectrum-item" style="background:#166534">
+        <div class="s-label">Respectful</div>
+        <div class="s-sub">Inclusive, professional, values every person</div>
+      </div>
+      <div class="spectrum-item" style="background:#d97706">
+        <div class="s-label">Uncomfortable</div>
+        <div class="s-sub">Jokes or comments that exclude or demean</div>
+      </div>
+      <div class="spectrum-item" style="background:#ea580c">
+        <div class="s-label">Problematic</div>
+        <div class="s-sub">Repeated, targeted unwelcome behavior</div>
+      </div>
+      <div class="spectrum-item" style="background:#991b1b">
+        <div class="s-label">Illegal</div>
+        <div class="s-sub">Meets legal threshold for harassment</div>
+      </div>
+    </div>
+
+    <p class="section-body" style="margin-top:20px;"><strong>Practice:</strong> Select the most accurate category for each scenario below, then read the explanation.</p>
+
+    <!-- Scenario A -->
+    <div class="scenario-box">
+      <div class="scenario-label">Scenario A</div>
+      <div class="scenario-text">A manager sends the team group chat a GIF that makes a joke about a cultural stereotype. Most people laugh. One team member quietly feels singled out but says nothing.</div>
+      <div class="scenario-q">Where does this behavior fall on the spectrum?</div>
+      <button class="choice-btn" onclick="checkChoice(this,'A','wrong')" data-group="A">Respectful — it's just a joke among the team.</button>
+      <button class="choice-btn" onclick="checkChoice(this,'A','right')" data-group="A">Uncomfortable to Problematic — intent doesn't override impact.</button>
+      <button class="choice-btn" onclick="checkChoice(this,'A','wrong')" data-group="A">Illegal — this is clearly harassment.</button>
+      <div class="feedback-box" id="fb-A">
+        <div class="fb-head">That's right.</div>
+        Cultural stereotypes in humor create exclusion — even in a "harmless" group chat. The standard isn't whether most people laughed. It's whether a reasonable person in the affected employee's position would find it offensive. From a manager, this carries added weight due to power dynamics. Left unchecked, this pattern moves toward Problematic.
+      </div>
+    </div>
+
+    <!-- Scenario B -->
+    <div class="scenario-box">
+      <div class="scenario-label">Scenario B</div>
+      <div class="scenario-text">A team lead consistently assigns the most tedious, low-visibility tasks to the only employee over 55 on the team, while younger employees get high-profile projects. This has happened for six months.</div>
+      <div class="scenario-q">How would you classify this situation?</div>
+      <button class="choice-btn" onclick="checkChoice(this,'B','wrong')" data-group="B">Uncomfortable — task assignment is a management decision.</button>
+      <button class="choice-btn" onclick="checkChoice(this,'B','wrong')" data-group="B">Problematic — worth monitoring but not illegal yet.</button>
+      <button class="choice-btn" onclick="checkChoice(this,'B','right')" data-group="B">Illegal — this is a pattern of age-based discrimination creating a hostile environment.</button>
+      <div class="feedback-box" id="fb-B">
+        <div class="fb-head">Correct.</div>
+        A consistent six-month pattern of adverse treatment based on age meets the legal threshold. This is both hostile work environment harassment (based on a protected class: age) and potentially quid pro quo (access to opportunities conditioned on being younger). This should be reported to HR immediately.
+      </div>
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-nav secondary" onclick="goTo(2)">← Back</button>
+    <span class="section-counter">Section 3 of 6</span>
+    <button class="btn-nav primary" onclick="goTo(4)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 4: Bystander Intervention
+═══════════════════════════════════════════ -->
+<div id="screen-4" class="screen">
+  <div class="content-wrap">
+    <div class="section-eyebrow">Section 4 of 6 · Taking Action</div>
+    <h2 class="section-title">Bystander Intervention: The 4D Model</h2>
+    <p class="section-body">Witnessing a problem and doing nothing is a choice. Research consistently shows that <strong>empowered bystanders are the most effective harassment prevention tool available</strong>. You don't have to be the person most affected to make a difference.</p>
+
+    <div class="card-grid cols-2">
+      <div class="card green">
+        <div class="card-title">Direct</div>
+        <div class="card-body">Address the behavior in the moment, calmly and directly.</div>
+        <div class="card-example"><em>"Hey, that comment wasn't okay. Let's keep things professional."</em></div>
+      </div>
+      <div class="card blue">
+        <div class="card-title">Distract</div>
+        <div class="card-body">Interrupt without direct confrontation to de-escalate the situation.</div>
+        <div class="card-example"><em>"Hey Marcus, can I steal you for a second? I need help with something."</em></div>
+      </div>
+      <div class="card purple">
+        <div class="card-title">Delegate</div>
+        <div class="card-body">Involve a third party who is better positioned to intervene.</div>
+        <div class="card-example"><em>"I saw what happened. I'm going to let HR know — is that okay with you?"</em></div>
+      </div>
+      <div class="card orange">
+        <div class="card-title">Delay</div>
+        <div class="card-body">Check in privately with the affected person after the incident.</div>
+        <div class="card-example"><em>"I noticed what happened earlier. Are you okay? Do you want to talk?"</em></div>
+      </div>
+    </div>
+
+    <!-- Interactive scenario -->
+    <div class="scenario-box">
+      <div class="scenario-label">Apply the 4D Model</div>
+      <div class="scenario-text">You're in a team meeting. Your colleague Dana is presenting. Your supervisor Frank interrupts her twice, dismisses her idea, then makes a comment about how she "looks too nice to be stuck in data work." Dana forces a smile. You can see she's uncomfortable.</div>
+      <div class="scenario-q">As a bystander, which response is MOST appropriate in the moment?</div>
+      <button class="choice-btn" onclick="checkChoice(this,'4D','wrong')" data-group="4D">Say nothing — it's between Frank and Dana and it's not your place.</button>
+      <button class="choice-btn" onclick="checkChoice(this,'4D','right')" data-group="4D">Use Distract: redirect the conversation. "Actually Dana, I thought your point about the data trend was really valuable — can you expand on that?"</button>
+      <button class="choice-btn" onclick="checkChoice(this,'4D','partial')" data-group="4D">Use Delay: wait until after the meeting to check in with Dana privately.</button>
+      <button class="choice-btn" onclick="checkChoice(this,'4D','wrong')" data-group="4D">Confront Frank loudly in front of the team to make it clear his behavior is unacceptable.</button>
+      <div class="feedback-box" id="fb-4D">
+        <div class="fb-head" id="fb-4D-head"></div>
+        <span id="fb-4D-text"></span>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Remember:</strong> You don't have to choose just one D. In Dana's situation, you might Distract in the meeting and then Delay by checking in privately afterward — and if the pattern continues, Delegate to HR. Safety comes first — never intervene in a way that puts you at risk.</div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-nav secondary" onclick="goTo(3)">← Back</button>
+    <span class="section-counter">Section 4 of 6</span>
+    <button class="btn-nav primary" onclick="goTo(5)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 5: Reporting & Manager Duties
+═══════════════════════════════════════════ -->
+<div id="screen-5" class="screen">
+  <div class="content-wrap">
+    <div class="section-eyebrow">Section 5 of 6 · Reporting</div>
+    <h2 class="section-title">Reporting & What to Expect</h2>
+    <p class="section-body">The #1 reason harassment goes unreported is fear — fear of retaliation, fear of not being believed, or fear that nothing will change. Understanding the process can help remove that barrier.</p>
+
+    <div class="process">
+      <div class="process-step">
+        <div class="process-num" style="background:var(--burg)">1</div>
+        <div class="process-title">Report</div>
+        <div class="process-desc">Speak with HR, your manager, or use the anonymous portal. Written or verbal.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num" style="background:#7c3aed">2</div>
+        <div class="process-title">Intake</div>
+        <div class="process-desc">HR acknowledges within 2 business days. Investigator assigned.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num" style="background:var(--blue)">3</div>
+        <div class="process-title">Investigation</div>
+        <div class="process-desc">Impartial review — interviews, documentation, evidence.</div>
+      </div>
+      <div class="process-step">
+        <div class="process-num" style="background:#16a34a">4</div>
+        <div class="process-title">Outcome</div>
+        <div class="process-desc">Both parties notified within 30 days. Corrective action taken.</div>
+      </div>
+    </div>
+
+    <div class="warning-box">
+      <strong>⚠ Anti-Retaliation Protection:</strong> Illinois law strictly prohibits retaliation against anyone who reports harassment, participates in an investigation, or supports a colleague's complaint. Retaliation is itself a separate legal violation and will result in disciplinary action, up to and including termination.
+    </div>
+
+    <p class="section-body"><strong>For supervisors and managers:</strong> If you witness or receive information about potential harassment involving someone you supervise, you have a <strong>mandatory reporting obligation</strong> under Illinois law — even if the employee asks you not to act. You are not the investigator. Your role is to report promptly to HR.</p>
+
+    <ul class="info-list">
+      <li data-icon="📧">HR Department: <strong>hr@lakeviewcs.org · Ext. 204</strong> · Available M–F 8am–5pm</li>
+      <li data-icon="🔒">Anonymous Reporting Portal: <strong>ethics.lakeviewcs.org</strong> · Available 24/7</li>
+      <li data-icon="💬">Employee Assistance Program (EAP): <strong>1-800-555-0147</strong> · Free, confidential counseling</li>
+      <li data-icon="⚖">Illinois EACH Act full text: <strong>illinoisattorneygeneral.gov</strong></li>
+    </ul>
+  </div>
+  <div class="nav-row">
+    <button class="btn-nav secondary" onclick="goTo(4)">← Back</button>
+    <span class="section-counter">Section 5 of 6</span>
+    <button class="btn-nav primary" onclick="goTo(6)">Continue →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SCREEN 6: Summary
+═══════════════════════════════════════════ -->
+<div id="screen-6" class="screen">
+  <div class="content-wrap">
+    <div class="section-eyebrow">Section 6 of 6 · Review</div>
+    <h2 class="section-title">Key Takeaways</h2>
+    <p class="section-body">Before the knowledge check, review the core principles from this module.</p>
+
+    <div class="card-grid">
+      <div class="card gold">
+        <div class="card-num">01</div>
+        <div class="card-title">Know the definition</div>
+        <div class="card-body">Harassment is unwelcome conduct based on a protected characteristic that is severe or pervasive enough to create a hostile environment — or that affects employment decisions. Both types (quid pro quo and hostile environment) are illegal.</div>
+      </div>
+      <div class="card teal">
+        <div class="card-num">02</div>
+        <div class="card-title">Intent doesn't erase impact</div>
+        <div class="card-body">The legal standard is what a reasonable person in the same situation would experience — not whether harm was intended. "I was joking" is not a defense.</div>
+      </div>
+      <div class="card green">
+        <div class="card-num">03</div>
+        <div class="card-title">Bystanders have power</div>
+        <div class="card-body">The 4D model (Direct, Distract, Delegate, Delay) gives every employee tools to intervene safely when they witness problematic behavior — even without direct confrontation.</div>
+      </div>
+      <div class="card">
+        <div class="card-num">04</div>
+        <div class="card-title">Reporting is protected</div>
+        <div class="card-body">Retaliation against anyone who reports, participates in an investigation, or supports a complaint is itself a separate legal violation. You are protected when you act in good faith.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Ready for the knowledge check?</strong> You'll answer 8 questions covering the key concepts from this module. A score of <strong>80% or higher</strong> (7 out of 8 correct) is required for completion. You may retake the quiz if needed.
+    </div>
+  </div>
+  <div class="nav-row">
+    <button class="btn-nav secondary" onclick="goTo(5)">← Back</button>
+    <span class="section-counter">Section 6 of 6</span>
+    <button class="btn-nav primary" onclick="startQuiz()">Start Knowledge Check →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     QUIZ SCREEN
+═══════════════════════════════════════════ -->
+<div id="screen-quiz" class="screen">
+  <div class="content-wrap">
+    <div class="section-eyebrow">Knowledge Check · 8 Questions · 80% to Pass</div>
+    <h2 class="section-title" style="margin-bottom:24px;">Test Your Understanding</h2>
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div class="quiz-card" id="quizCard">
+      <!-- Rendered by JS -->
+    </div>
+    <button class="btn-next" id="btnNext" onclick="nextQuestion()">Next Question →</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     COMPLETION SCREEN
+═══════════════════════════════════════════ -->
+<div id="screen-complete" class="screen">
+  <div class="complete-card">
+    <div class="score-ring">
+      <div class="score-ring-bg"></div>
+      <div class="score-ring-fill" id="scoreRingFill"></div>
+      <div class="score-pct" id="scorePct">0%</div>
+      <div class="score-lbl">Score</div>
+    </div>
+    <h2 class="complete-title" id="completeTitle">Module Complete</h2>
+    <p class="complete-sub" id="completeSub"></p>
+    <div class="score-breakdown">
+      <div class="sb-item"><div class="sb-val" id="sbCorrect">0</div><div class="sb-key">Correct</div></div>
+      <div class="sb-item"><div class="sb-val" id="sbTotal">8</div><div class="sb-key">Total Questions</div></div>
+    </div>
+    <div class="cert-strip" id="certStrip">
+      <div class="cert-title">Certificate of Completion</div>
+      <div class="cert-name">Building a Respectful Workplace · HR-201</div>
+      <div class="cert-sub" id="certDate"></div>
+    </div>
+    <button class="btn-restart" onclick="restartModule()">↺ Retake Module</button>
+  </div>
+</div>
+
+<script>
+// ── STATE ──────────────────────────────────────────────────────────────────
+let currentScreen = 0;
+const TOTAL_SECTIONS = 6;
+let quizIndex = 0;
+let score = 0;
+let answered = false;
+
+// ── QUIZ DATA ──────────────────────────────────────────────────────────────
+const questions = [
+  {
+    q: "Under Illinois law, which of the following is the correct legal standard for determining if conduct constitutes harassment?",
+    opts: [
+      "Whether the accused intended to cause harm",
+      "Whether a reasonable person in the same situation would find the conduct hostile or abusive",
+      "Whether the target formally reported the behavior to HR",
+      "Whether the behavior occurred more than three times"
+    ],
+    correct: 1,
+    feedback: "Correct. The 'reasonable person' standard is the legal benchmark — not the perpetrator's intent, not whether a complaint was filed, and not the number of incidents. A single severe incident can qualify."
+  },
+  {
+    q: "A supervisor tells an employee they will only be considered for a high-visibility project if they agree to go on a date with him. This is an example of:",
+    opts: [
+      "Hostile work environment harassment",
+      "Quid pro quo harassment",
+      "An uncomfortable but legal management decision",
+      "Retaliation"
+    ],
+    correct: 1,
+    feedback: "Correct. Quid pro quo harassment occurs when employment decisions or opportunities are conditioned on the acceptance or rejection of unwelcome conduct. This is a textbook example."
+  },
+  {
+    q: "Which of the following statements about workplace harassment is FALSE?",
+    opts: [
+      "Harassment must involve physical contact to be legally actionable",
+      "Online and remote conduct (email, Slack, video calls) is covered under harassment law",
+      "A single incident can qualify as harassment if it is severe enough",
+      "Retaliation against someone who reports harassment is itself a separate legal violation"
+    ],
+    correct: 0,
+    feedback: "Correct — that statement is false. Harassment does not require physical contact. A hostile work environment created entirely through words, actions, or digital communication is fully covered under the law."
+  },
+  {
+    q: "Using the 4D Bystander Intervention model, which approach involves checking in with the affected person AFTER the incident has occurred?",
+    opts: [
+      "Direct",
+      "Distract",
+      "Delegate",
+      "Delay"
+    ],
+    correct: 3,
+    feedback: "Correct. 'Delay' means following up privately with the affected person after an incident — asking if they're okay, offering support, and letting them know you noticed. It's one of the most powerful and underused tools in bystander intervention."
+  },
+  {
+    q: "An employee witnesses their manager making repeated demeaning comments about a colleague's religion over several months. The targeted colleague has not complained. What should the witnessing employee do?",
+    opts: [
+      "Nothing — since the targeted colleague hasn't complained, it's not their concern",
+      "Wait to see if the behavior escalates before taking action",
+      "Use the 4D model to intervene and/or report the behavior to HR in good faith",
+      "Confront the manager publicly to send a clear message to the team"
+    ],
+    correct: 2,
+    feedback: "Correct. Bystanders have both the opportunity and responsibility to act — regardless of whether the target has filed a complaint. Reporting in good faith is always the right move. A public confrontation may escalate the situation and put others at risk."
+  },
+  {
+    q: "Under Illinois law, a manager who is informed about potential harassment involving one of their direct reports:",
+    opts: [
+      "May choose not to act if the employee asks them to keep it private",
+      "Should address it informally before involving HR",
+      "Has a mandatory obligation to report it to HR, regardless of the employee's wishes",
+      "Is only required to act if the behavior meets the legal definition of harassment"
+    ],
+    correct: 2,
+    feedback: "Correct. Illinois law holds supervisors and managers to a higher standard. Once aware of potential harassment, they have a mandatory reporting obligation — they cannot defer to the employee's preference to keep it quiet. Their role is reporter, not investigator."
+  },
+  {
+    q: "Which of the following best describes a 'hostile work environment' harassment claim?",
+    opts: [
+      "Any situation where an employee feels uncomfortable at work",
+      "Unwelcome conduct based on a protected characteristic that is severe or pervasive enough to alter the conditions of employment",
+      "A single offensive joke made in the workplace",
+      "Any conflict between coworkers that affects team morale"
+    ],
+    correct: 1,
+    feedback: "Correct. A hostile work environment requires unwelcome conduct tied to a protected characteristic (race, sex, age, religion, etc.) that rises to the level of 'severe or pervasive.' Ordinary rudeness or conflict, without a protected class basis, does not meet this legal threshold."
+  },
+  {
+    q: "An employee reports harassment to HR and, two weeks later, is passed over for a promotion they were previously on track to receive. This situation describes:",
+    opts: [
+      "A coincidence that requires no further investigation",
+      "Retaliation — which is itself a separate and serious legal violation",
+      "A valid performance management decision by the employer",
+      "Quid pro quo harassment directed at the reporting employee"
+    ],
+    correct: 1,
+    feedback: "Correct. Retaliation — any adverse action taken against an employee for reporting harassment, participating in an investigation, or supporting a colleague's complaint — is a serious legal violation separate from the underlying harassment claim. Employers must investigate promptly."
+  }
+];
+
+// ── NAVIGATION ─────────────────────────────────────────────────────────────
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+}
+
+function goTo(n) {
+  currentScreen = n;
+  if (n === 0) {
+    document.getElementById('topnav').style.display = 'none';
+    showScreen('screen-landing');
+  } else {
+    document.getElementById('topnav').style.display = 'flex';
+    updateProgress(n);
+    showScreen('screen-' + n);
+  }
+}
+
+function updateProgress(section) {
+  const pct = Math.round((section / TOTAL_SECTIONS) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `Section ${section} of ${TOTAL_SECTIONS}`;
+}
+
+function startModule() {
+  document.getElementById('topnav').style.display = 'flex';
+  goTo(1);
+}
+
+// ── INTERACTIVE SCENARIOS ──────────────────────────────────────────────────
+function checkChoice(btn, group, result) {
+  const allBtns = document.querySelectorAll(`[data-group="${group}"]`);
+  allBtns.forEach(b => { b.disabled = true; });
+
+  if (group === '4D') {
+    const fbHead = document.getElementById('fb-4D-head');
+    const fbText = document.getElementById('fb-4D-text');
+    if (result === 'right') {
+      btn.classList.add('correct');
+      fbHead.textContent = '✓ Best choice.';
+      fbText.textContent = "Distract is ideal here — it redirects the conversation, amplifies Dana's contribution, and challenges Frank's behavior without direct confrontation in a high-stakes setting. Following up with Dana afterward (Delay) strengthens your support.";
+    } else if (result === 'partial') {
+      btn.classList.add('correct');
+      fbHead.textContent = '✓ Good, but not the strongest option.';
+      fbText.textContent = "Delay is valuable and should absolutely happen — checking in with Dana matters. But the best in-the-moment action is Distract: redirecting the conversation protects Dana in real time while avoiding public escalation.";
+    } else {
+      btn.classList.add('incorrect');
+      fbHead.textContent = '✗ Not the best response.';
+      fbText.textContent = result === 'wrong' && btn.textContent.includes('nothing')
+        ? "Doing nothing is a choice — and it sends a message that the behavior is acceptable. You don't have to be the person most affected to have a responsibility to act."
+        : "While Frank's behavior is problematic, a loud public confrontation in a meeting can escalate the situation, embarrass Dana further, and put you at risk. Distract is more effective and safer in this context.";
+    }
+  } else {
+    if (result === 'right') {
+      btn.classList.add('correct');
+    } else {
+      btn.classList.add('incorrect');
+      allBtns.forEach(b => {
+        if (b.textContent !== btn.textContent) b.style.opacity = '0.5';
+      });
+    }
+  }
+
+  const fb = document.getElementById(`fb-${group}`);
+  if (fb) fb.classList.add('show');
+}
+
+// ── QUIZ ───────────────────────────────────────────────────────────────────
+function startQuiz() {
+  quizIndex = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('topnav').style.display = 'none';
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = questions[quizIndex];
+
+  // Dots
+  const dotsEl = document.getElementById('quizProgress');
+  dotsEl.innerHTML = questions.map((_, i) => {
+    let cls = 'qp-dot';
+    if (i < quizIndex) cls += ' done';
+    if (i === quizIndex) cls += ' current';
+    return `<div class="${cls}"></div>`;
+  }).join('');
+
+  // Card
+  const letters = ['A','B','C','D'];
+  document.getElementById('quizCard').innerHTML = `
+    <div class="quiz-num">Question ${quizIndex + 1} of ${questions.length}</div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-options">
+      ${q.opts.map((opt, i) => `
+        <div class="quiz-opt" onclick="selectAnswer(this, ${i})" id="opt-${i}">
+          <div class="opt-letter">${letters[i]}</div>
+          <div>${opt}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+  `;
+
+  const btn = document.getElementById('btnNext');
+  btn.classList.remove('show');
+  btn.textContent = quizIndex < questions.length - 1 ? 'Next Question →' : 'See My Results →';
+}
+
+function selectAnswer(el, index) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[quizIndex];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.classList.add('disabled'));
+
+  const fb = document.getElementById('quizFeedback');
+
+  if (index === q.correct) {
+    el.classList.add('correct');
+    score++;
+    fb.innerHTML = `<div class="fb-title">✓ Correct!</div>${q.feedback}`;
+    fb.className = 'quiz-feedback show correct';
+  } else {
+    el.classList.add('incorrect');
+    opts[q.correct].classList.add('reveal-correct');
+    fb.innerHTML = `<div class="fb-title">✗ Not quite.</div>${q.feedback}`;
+    fb.className = 'quiz-feedback show incorrect';
+  }
+
+  document.getElementById('btnNext').classList.add('show');
+}
+
+function nextQuestion() {
+  quizIndex++;
+  if (quizIndex >= questions.length) {
+    showResults();
+  } else {
+    renderQuestion();
+    window.scrollTo(0,0);
+  }
+}
+
+function showResults() {
+  const pct = Math.round((score / questions.length) * 100);
+  const passed = pct >= 80;
+
+  document.getElementById('scorePct').textContent = pct + '%';
+  document.getElementById('sbCorrect').textContent = score;
+  document.getElementById('sbTotal').textContent = questions.length;
+
+  // Ring color
+  const ring = document.getElementById('scoreRingFill');
+  ring.style.borderColor = passed ? '#c9a84c' : '#dc2626';
+
+  document.getElementById('completeTitle').textContent =
+    passed ? '🎉 Module Complete!' : 'Keep Going — Almost There';
+
+  document.getElementById('completeSub').textContent = passed
+    ? `You passed with ${pct}%. Your completion has been recorded. Submit your Certificate of Completion to HR to fulfill your Illinois EACH Act annual training requirement.`
+    : `You scored ${pct}% — a passing score is 80%. Review the content and retake the module. The knowledge in this training protects you and your colleagues.`;
+
+  const certStrip = document.getElementById('certStrip');
+  certStrip.style.display = passed ? 'block' : 'none';
+
+  const today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('certDate').textContent =
+    `Completed: ${today} · Lakeview Community Services · Illinois EACH Act Compliant`;
+
+  showScreen('screen-complete');
+}
+
+function restartModule() {
+  document.getElementById('topnav').style.display = 'none';
+  showScreen('screen-landing');
+  currentScreen = 0;
+}
+</script>
+</body>
+</html>
